@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import os from 'node:os'
 // import { checkUpdate } from './appVersion'
-// import { autoUpdateApp } from './auto-update'
+import { autoUpdateApp } from './auto-update'
 
 // const require = createRequire(import.meta.url)
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -144,7 +144,7 @@ ipcMain.handle('check-update', (e: any) => {
   const currentWin = getWindowByEvent(e)
   // 升级校验
   // checkUpdate(currentWin)
-  // autoUpdateApp()
+  autoUpdateApp()
 })
 
 /**

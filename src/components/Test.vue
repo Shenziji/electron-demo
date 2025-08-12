@@ -2,8 +2,8 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { onBeforeUnmount, onMounted, reactive, ref } from 'vue'
-// import { checkUpdate } from '@/utils/electronUtils'
-// import { ipcRenderer } from 'electron'
+import { checkUpdate } from '@/utils/electronUtils'
+import { ipcRenderer } from 'electron'
 
 const container = ref(null)
 let scene, camera, renderer, cube, controls, animationId
@@ -283,13 +283,13 @@ function downloadProgressHandle(e, data) {
 
 const handleCheckUpdate = () => {
   console.log('点击更新检测')
-  // checkUpdate()
+  checkUpdate()
 }
 
 onMounted(() => {
   init()
   // 版本更新，下载进度回调
-  // ipcRenderer.on('download-progress', downloadProgressHandle)
+  ipcRenderer.on('download-progress', downloadProgressHandle)
 })
 
 onBeforeUnmount(() => {
@@ -300,7 +300,7 @@ onBeforeUnmount(() => {
     container.value.removeChild(renderer.domElement)
   }
   window.removeEventListener('resize', onWindowResize)
-  // ipcRenderer.removeListener('download-progress', downloadProgressHandle)
+  ipcRenderer.removeListener('download-progress', downloadProgressHandle)
 })
 </script>
 
@@ -423,8 +423,9 @@ onBeforeUnmount(() => {
   </div>
   <div
     class="fixed top-4 right-4 bg-white/80 px-2 py-1 rounded shadow-lg z-10 w-20 cursor-pointer hover:bg-blue-50 transition duration-300 ease-in-out"
+    @click="checkUpdate"
   >
-    检查更新1.0.3
+    检查更新1.0.7
   </div>
 </template>
 
