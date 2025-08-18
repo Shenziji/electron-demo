@@ -4,7 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import { checkUpdate } from '@/utils/electronUtils'
 import { ipcRenderer } from 'electron'
-
+import si from 'systeminformation'
 const container = ref(null)
 let scene, camera, renderer, cube, controls, animationId
 let isAnimating = false
@@ -286,6 +286,32 @@ const handleCheckUpdate = () => {
   checkUpdate()
 }
 
+const checkSystermInfo = () => {
+  // 获取设备信息
+  si.system()
+    .then((data) => console.log('获取设备信息', data))
+    .catch((error) => console.error(error))
+  // 获取uuid
+  si.uuid()
+    .then((data) => console.log('获取uuid', data))
+    .catch((error) => console.error(error))
+
+  // 获取 CPU 信息
+  // si.cpu()
+  //   .then((data) => console.log('获取 CPU 信息', data))
+  //   .catch((error) => console.error(error))
+
+  // 获取内存信息
+  // si.mem()
+  //   .then((data) => console.log('获取内存信息', data))
+  //   .catch((error) => console.error(error))
+
+  // 获取操作系统信息
+  // si.osInfo()
+  //   .then((data) => console.log('获取操作系统信息', data))
+  //   .catch((error) => console.error(error))
+}
+
 onMounted(() => {
   init()
   // 版本更新，下载进度回调
@@ -426,6 +452,12 @@ onBeforeUnmount(() => {
     @click="checkUpdate"
   >
     检查更新1.0.7
+  </div>
+  <div
+    class="fixed top-30 right-4 bg-white/80 px-2 py-1 rounded shadow-lg z-10 w-20 cursor-pointer hover:bg-blue-50 transition duration-300 ease-in-out"
+    @click="checkSystermInfo"
+  >
+    获取设备信息
   </div>
 </template>
 
